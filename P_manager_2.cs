@@ -20,12 +20,6 @@ public class P_manager_2 : MonoBehaviour
     private int m_startMenuInd;
 
     /// <summary>
-    /// Referece to the additional graphic that should be turned off in case of overlay menu page
-    /// </summary>
-    [SerializeField]
-    private GameObject[] m_AddPanels;
-
-    /// <summary>
     /// Bool to determine whether it is nessesary to deactivate additional graphic panels
     /// </summary>
     private bool m_DeactivatePanels = false;
