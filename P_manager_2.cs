@@ -4,18 +4,13 @@ using UnityEditor.Experimental.XR;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class P_manager : MonoBehaviour
+public class P_manager_2 : MonoBehaviour
 {
     /// <summary>
     /// Pages holder
     /// </summary>
     [SerializeField]
     private GameObject[] m_Pages;
-
-    /// <summary>
-    /// Page to be turned off before the next one is activated
-    /// </summary>
-    private GameObject m_PreviousPage = null;
 
     /// <summary>
     /// Starting page index
@@ -42,7 +37,10 @@ public class P_manager : MonoBehaviour
     {
         for (int nInd = 0; nInd < m_Pages.Length; nInd++)
         {
-            m_Pages[nInd].SetActive(false);
+            if (m_Pages[nInd].tag != "AdditionalPanel")
+            {
+                m_Pages[nInd].SetActive(false);
+            }
         }
     }
 
@@ -72,25 +70,26 @@ public class P_manager : MonoBehaviour
     {
         if (m_DeactivatePanels)
         {
-            for (int nInd = 0; nInd < m_AddPanels.Length; nInd++)
+            for (int nInd = 0; nInd < m_Pages.Length; nInd++)
             {
-                m_AddPanels[nInd]?.SetActive(false);
+                m_Pages[nInd].SetActive(false);
             }
             m_DeactivatePanels = false;
         }
-        /// activate additional panels back, additional case in order to prevent unnessesary looping
-        else if (!m_DeactivatePanels && !m_AddPanels[0].activeSelf)
+        else
         {
-            for (int nInd = 0; nInd < m_AddPanels.Length; nInd++)
+            for (int nInd = 0; nInd < m_Pages.Length; nInd++)
             {
-                m_AddPanels[nInd].SetActive(true);
+                if (m_Pages[nInd].tag != "AdditionalPanel")
+                {
+                    m_Pages[nInd].SetActive(false);
+                }
+                else if (!m_Pages[nInd].activeSelf)
+                {
+                    m_Pages[nInd].SetActive(true);
+                }
             }
         }
-
-        m_PreviousPage?.SetActive(false);
-
         m_Pages[index].SetActive(true);
-
-        m_PreviousPage = m_Pages[index];
     }
 }
